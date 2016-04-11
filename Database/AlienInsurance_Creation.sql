@@ -1,5 +1,7 @@
 drop database if exists AlienInsurance;
 
+drop user if exists 'alienuser'@'%';
+
 create database AlienInsurance;
 
 use AlienInsurance;
@@ -7,6 +9,9 @@ use AlienInsurance;
 create table users (
 	user_name varchar(30) primary key,
     password char(64) not null,
+    first_name varchar(30) not null,
+    last_name varchar(30) not null,
+    email varchar(50) not null,
     date_created datetime not null default now(),
     date_modified datetime null default now(),
     modified_by varchar(30) null,					-- This could the be same user
@@ -101,12 +106,15 @@ delimiter $$
 
 create procedure sp_insert_user (
 	in user_name_param varchar(30),
-    in password_param char(64),
-    in date_created_param date
+    in password_param varchar(30),
+    in first_name_param varchar(30),
+    in last_name_param varchar(30),
+    in email_param varchar(50),
+    in date_created_param datetime
 )
 begin
-	insert into users(user_name, password, date_created, date_modified, modified_by, active)
-    values(user_name_param, password_param, date_created_param, null, null, default); 
+	insert into users(user_name, password, first_name, last_name, email, date_created, date_modified, modified_by, active)
+    values(user_name_param, sha2(password_param, 0), first_name_param, last_name_param, email_param, date_created_param, null, null, default); 
 end$$
 
 create procedure sp_insert_role (
@@ -136,7 +144,7 @@ create procedure sp_insert_product (
 )
 begin
 	insert into products(title, content, cost, date_created, date_modified, modified_by, active)
-    values(title_param, content_param, cost_param, date_create_param, null, null, default);
+    values(title_param, content_param, cost_param, date_created_param, null, null, default);
 end$$
 
 create procedure sp_assign_customer_product (
@@ -185,7 +193,10 @@ end$$
 
 create procedure sp_update_user (
 	in user_name_param varchar(30),
-    in password_param char(64),
+    in password_param varchar(50),
+    in first_name_param varchar(30),
+    in last_name_param varchar(30),
+    in email_param varchar(50),
     in date_modified datetime,
     in modified_by_param varchar(30),
 	in active_param bit
@@ -193,14 +204,17 @@ create procedure sp_update_user (
 begin
 	if exists (select 1 from users where user_name = user_name) then
 		update users
-        set password = password_param,
+        set password = sha2(password_param, 0),
+			first_name = first_name_param,
+            last_name = last_name_param,
+            email = email_param,
 			date_modified = date_modified_param,
 			modified_by = modified_by_param,
 			active = active_param
         where user_name = user_name_param;
     else
-		insert into users(user_name, password, date_created, date_modifed, modified_by, active)
-        values(user_name_param, password_param, date_modified, null, null, default);
+		insert into users(user_name, password, first_name, last_name, email, date_created, date_modified, modified_by, active)
+		values(user_name_param, sha2(password_param, 0), first_name_param, last_name_param, email_param, date_created_param, null, null, default); 
     end if;
 end$$
 
@@ -347,7 +361,7 @@ create procedure sp_select_users (
 	in active_param bit
 )
 begin
-	select user_name, date_created, date_modified, modified_by
+	select user_name, first_name, last_name, email, date_created, date_modified, modified_by
     from users
     where active = active_param;
 end$$
@@ -366,9 +380,11 @@ create procedure sp_select_user_roles (
 	in active_param bit
 )
 begin
-	select role_type, date_created, date_modified, modified_by
-    from user_roles
-    where user_name = user_name_param and active = active_param;
+	select ur.role_type, ur.date_created, ur.date_modified, ur.modified_by, r.description
+    from user_roles as ur
+    inner join roles as r
+		on ur.role_type = r.role_type and r.active = 1
+    where ur.user_name = user_name_param and ur.active = active_param;
 end$$
 
 create procedure sp_select_products (
@@ -449,7 +465,7 @@ create procedure sp_select_user (
 	in user_name_param varchar(30)
 )
 begin
-	select date_created, date_modified, modified_by, active
+	select user_name, first_name, last_name, email, date_created, date_modified, modified_by, active
     from users
     where user_name = user_name_param;
 end$$
@@ -486,7 +502,7 @@ create procedure sp_select_user_unprocessed_claims (
     in active_param bit
 )
 begin
-	select content , occurance_date, claim_by, date_created, active, approved, processed_by, date_processed
+	select content, occurance_date, claim_by, date_created, active, approved, processed_by, date_processed
     from claims
     where active = active_param and user_name = user_name_param and approved is null;
 end$$
@@ -524,7 +540,7 @@ create procedure sp_select_blog_comment (
 	in blog_comment_id_param int
 )
 begin
-	select blog_id, content, created_by, date_created, date_modifed, modified_by, active
+	select blog_id, content, created_by, date_created, date_modified, modified_by, active
     from blog_comments
     where blog_comment_id = blog_comment_id_param;
 end$$
@@ -534,9 +550,9 @@ create procedure sp_select_blog_blog_comments (
     in active_param bit
 )
 begin
-	select blog_id, content, created_by, date_created, date_modifed, modified_by, active
+	select blog_id, content, created_by, date_created, date_modified, modified_by, active
     from blog_comments
-    where blog_comment_id = blog_comment_id_param;
+    where blog_id = blog_id_param;
 end$$
 
 create procedure sp_select_user_blog_comments (
@@ -544,9 +560,180 @@ create procedure sp_select_user_blog_comments (
     in active_param bit
 )
 begin
-	select blog_id, content, created_by, date_created, date_modifed, modified_by, active
+	select blog_id, content, created_by, date_created, date_modified, modified_by, active
     from blog_comments
     where active = active_param and user_name = user_name_param;
 end$$
 
+create procedure sp_select_user_on_password (
+	in user_name_param varchar(30),
+    in password_param varchar(50)
+)
+begin
+	select user_name, first_name, last_name, email, date_created, date_modified, modified_by, active 
+    from users
+    where active = 1 and user_name = user_name_param and password = sha2(password_param, 0);
+end$$
+
 delimiter ; 
+
+create user 'alienuser'@'%'
+identified by 'Password_123';
+
+grant execute on procedure sp_insert_user
+to 'alienuser'@'%';
+
+grant execute on procedure sp_insert_role
+to 'alienuser'@'%';
+
+grant execute on procedure sp_assign_user_role
+to 'alienuser'@'%';
+
+grant execute on procedure sp_insert_product
+to 'alienuser'@'%';
+
+grant execute on procedure sp_assign_customer_product
+to 'alienuser'@'%';
+
+grant execute on procedure sp_insert_claim
+to 'alienuser'@'%';
+
+grant execute on procedure sp_insert_blog
+to 'alienuser'@'%';
+
+grant execute on procedure sp_assign_blog_comment
+to 'alienuser'@'%';
+
+grant execute on procedure sp_update_user
+to 'alienuser'@'%';
+
+grant execute on procedure sp_update_role
+to 'alienuser'@'%';
+
+grant execute on procedure sp_update_user_role
+to 'alienuser'@'%';
+
+grant execute on procedure sp_update_product
+to 'alienuser'@'%';
+
+grant execute on procedure sp_update_customer_product
+to 'alienuser'@'%';
+
+grant execute on procedure sp_update_claim
+to 'alienuser'@'%';
+
+grant execute on procedure sp_update_blog
+to 'alienuser'@'%';
+
+grant execute on procedure sp_update_blog_comment
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_users
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_roles
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_user_roles
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_products
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_customer_products
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_product_customers
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_claims
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_unprocessed_claims
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_processed_claims
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_blogs
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_blog_comments
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_user
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_role
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_product
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_claim
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_user_unprocessed_claims
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_user_processed_claims
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_blog
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_user_blogs
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_blog_comment
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_blog_blog_comments
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_user_blog_comments
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_user_on_password
+to 'alienuser'@'%';
+
+use alieninsurance;
+
+call sp_insert_role ('Administrator', 'Website administrator');
+call sp_insert_role ('User', 'Generic User');
+call sp_insert_role ('Employee', 'Company representative');
+
+call sp_insert_user ('admin', 'Password_123', 'System', 'Administrator', 'admin@alien.com',  now());
+call sp_assign_user_role ('admin', 'Administrator', now());
+
+call sp_insert_user ('user', 'Password_123', 'John', 'Doe', 'jdoe@sample.com', now());
+call sp_assign_user_role('user', 'User', now());
+
+call sp_insert_user ('employee', 'Password_123', 'Rick', 'Smith', 'rsmith@alien.com',  now());
+call sp_assign_user_role ('employee', 'Employee', now());
+
+call sp_insert_product ('Product one', 'Description for product one.', 567.75, now());
+call sp_insert_product ('Product two', 'Description for product two.', 12345.25, now());
+call sp_insert_product ('Product three', 'Description for product three.', 987.50, now());
+
+call sp_assign_customer_product ('user', 1, now());
+call sp_assign_customer_product ('user', 2, now());
+call sp_assign_customer_product ('employee', 3, now());
+
+call sp_insert_blog('Blog one', 'Content of blog one.', 'user', 0, now());
+call sp_insert_blog('Blog two', 'Content of blog two.', 'employee', 0, now());
+call sp_insert_blog('Blog three', 'Content of blog three.', 'admin', 1, now());
+
+call sp_assign_blog_comment(1, 'First comment for blog one', 'admin', now());
+call sp_assign_blog_comment(1, 'Second comment for blog one', 'employee', now());
+call sp_assign_blog_comment(1, 'Third comment for blog one', 'user', now());
+call sp_assign_blog_comment(2, 'First comment for blog two', 'user', now());
+call sp_assign_blog_comment(2, 'Second comment for blog two', 'user', now());
+call sp_assign_blog_comment(2, 'Third comment for blog two', 'user', now());
+call sp_assign_blog_comment(3, 'First comment for blog three', 'admin', now());
+call sp_assign_blog_comment(3, 'Second comment for blog three', 'employee', now());
+call sp_assign_blog_comment(3, 'Third comment for blog three', 'employee', now());
+
+call sp_insert_claim('Description about claim one.', now(), 'user', now());
+call sp_insert_claim('Description about claim two.', now(), 'user', now());
+call sp_insert_claim('Description about claim three.', now(), 'user', now());
