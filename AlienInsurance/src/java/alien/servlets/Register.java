@@ -54,7 +54,8 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userName = request.getParameter("userName");
-        String password = request.getParameter("password");
+        String passwordOne = request.getParameter("passwordOne");
+        String passwordTwo = request.getParameter("passwordTwo");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
@@ -63,7 +64,7 @@ public class Register extends HttpServlet {
         
         if (userName.isEmpty()) {
             error = "Please enter a username.";
-        } else if (password.isEmpty()) {
+        } else if (passwordOne.isEmpty()) {
             error = "Please enter a password.";
         } else if (firstName.isEmpty()) {
             error = "Please enter your first name.";
@@ -72,29 +73,35 @@ public class Register extends HttpServlet {
         } else if (email.isEmpty()) {
             error = "Please enter an email.";
         }
-        
-        if (password.length() < 5) {
-            error = "Passwords must be at least 5 characters long.";
-        }
-        
-        UserManager userManager = new UserManager();
-        
-        if (!userManager.isUser(userName)) {
-            if (userManager.createUser(
-            userName, password, firstName, lastName, email)) {
-                if (userManager.attemptLogIn(userName, password)) {
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("user", userManager.getCurrentUser());
 
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
-                } else {
-                    error = "Something went wrong attempting to log in.";
-                }
-            } else {
-                error = "Something went wrong processing your account.";
+        if (error.isEmpty()) {
+            if (passwordOne.length() < 5) {
+                error = "Passwords must be at least 5 characters long.";
             }
-        } else {
-            error = "That user already exists.";
+
+            if (!passwordOne.equals(passwordTwo)) {
+                error = "Passwords must match.";
+            }
+            
+            if (error.isEmpty()) {
+                UserManager userManager = new UserManager();
+                if (!userManager.isUser(userName)) {
+                    if (userManager.createUser(
+                    userName, passwordOne, firstName, lastName, email)) {
+                        if (userManager.attemptLogIn(userName, passwordOne)) {
+                            HttpSession session = request.getSession(true);
+                            session.setAttribute("user", userManager.getCurrentUser());
+                            request.getRequestDispatcher("index.jsp").forward(request, response);
+                        } else {
+                            error = "Something went wrong attempting to log in.";
+                        }
+                    } else {
+                        error = "Something went wrong processing your account.";
+                    }
+                } else {
+                    error = "That user already exists.";
+                }
+            }
         }
 
         if (!error.isEmpty()) {

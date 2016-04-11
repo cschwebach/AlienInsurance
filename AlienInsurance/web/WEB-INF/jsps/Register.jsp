@@ -18,7 +18,8 @@
             <p class="error"><%= error %></p>
             <form method="POST">
                 <label for="userName">User Name </label><input type="text" name="userName" /><br />
-                <label for="password">Password </label><input type="password" name="password" /><br />
+                <label for="passwordOne">Password </label><input type="password" name="passwordOne" /><br />
+                <label for="passwordTwo">Confirm Password </label><input type="password" name="passwordTwo" /><br />
                 <label for="firstName">First Name </label><input type="text" name="firstName" /><br />
                 <label for="lastName">Last Name </label><input type="text" name="lastName" /><br />
                 <label for="email">Email </label><input type="text" name="email" /><br />
