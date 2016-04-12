@@ -40,7 +40,7 @@ body > section {
 }
 
 main {
-    margin-left: 15%;
+    margin-left: 10%;
     height: auto;
     min-height: 100%;
 }
@@ -48,7 +48,7 @@ main {
 footer {
     margin: 0;
     padding: 1em;
-    height: 85px;
+    width: 100%;
     position: relative;
     background-color: #ddd;
     border-top: .25em solid #000;
@@ -62,7 +62,7 @@ footer p {
 }
 
 form {
-    width: 20%;
+    width: 30%;
 }
 
 form label{
