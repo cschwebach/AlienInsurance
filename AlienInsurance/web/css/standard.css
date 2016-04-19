@@ -4,23 +4,41 @@
 */
 html, body {
     margin: 0;
-    padding: 0;
+    padding: 0px;
     width: 100%;
     height: 90%;
     font-family: sans-serif;
+    background-color: #ddd;
+}
+.funny {
+    width: 30%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    
+}
+
+.txtIndex{
+    text-align: center;
+}
+
+.txtIndex2{
+    text-align: center;
 }
 
 header {
     margin:0;
     padding: 1em;
+    height: 150px;
     width: 100%;
-    background-color: #ddd;
-    border-bottom: .25em solid #000;
+    background-image: url("../Images/mars-attacks-banner-art.jpg"); 
+    border-bottom: .25em solid #000;   
 }
 
 header h1 {
     margin-left: 5%;
     margin-bottom: 0;
+    color: white;
 }
 
 header a {
@@ -31,6 +49,7 @@ header a {
 header p {
     margin-left: 7%;
     margin-top: 0;
+    color: white;
 }
 
 body > section {
@@ -41,6 +60,7 @@ body > section {
 
 main {
     margin-left: 10%;
+    margin-right: 10%;
     height: auto;
     min-height: 100%;
 }
@@ -50,7 +70,7 @@ footer {
     padding: 1em;
     width: 100%;
     position: relative;
-    background-color: #ddd;
+    background-color: #66FF66;
     border-top: .25em solid #000;
 }
 
@@ -82,4 +102,62 @@ form input {
     color: #ff0000;
     font-weight: bold;
 }
+
+nav {
+    border: 1px solid #448844; 
+    margin: 0; 
+    padding: 25px;
+    background-color: #66FF66;
+    text-align: center;
+}
+
+nav ul {
+    margin: 0; 
+    padding: 3px;
+}
+
+nav ul li {
+    display: inline; 
+    margin: 5px;
+    padding: 5px;
+    background-color: #66FF66;
+}
+
+nav ul li a:link {
+    text-decoration: none;
+    color: #004400;
+    background-color: #aaffaa;
+    border-radius: 5px;
+    border: 1px solid #aaffaa;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+nav ul li a:visited {
+    color: #004400;
+    background-color: #aaffaa;
+    border-radius: 5px;
+    border: 1px solid #aaffaa;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+nav ul li a:hover {
+    color: #ddffdd;
+    background-color: #008800;
+    border-radius: 5px;
+    border: 1px solid #008800;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+nav ul li a:active {
+    color: #004400;
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 

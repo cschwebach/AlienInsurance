@@ -712,9 +712,10 @@ call sp_assign_user_role('user', 'User', now());
 call sp_insert_user ('employee', 'Password_123', 'Rick', 'Smith', 'rsmith@alien.com',  now());
 call sp_assign_user_role ('employee', 'Employee', now());
 
-call sp_insert_product ('Product one', 'Description for product one.', 567.75, now());
-call sp_insert_product ('Product two', 'Description for product two.', 12345.25, now());
-call sp_insert_product ('Product three', 'Description for product three.', 987.50, now());
+call sp_insert_product ('Individual Coverage', 'Covers body parts, alien abductions (leaving planet), and probing, also includes personal belongings in case the out of this world beings steal from you during your encounter. $1200 deductible.', 567.75, now());
+call sp_insert_product ('Family Coverage', 'Covers all members of immediate family’s body parts, alien abductions (leaving planet), personal belongings, and also includes all of the above for pets. $13499 deductible.', 2345.25, now());
+call sp_insert_product ('Business Coverage', 'Covers all employees body parts, alien abductions (leaving planet), business equipment, and business structure. $25000 deductible.', 5987.50, now());
+call sp_insert_product ('Home Coverage', 'Covers your home and all personal belongings, great coverage at a great price for family who are visited by aliens frequently. Never can be too safe. $15000 deductible.', 987.50, now());
 
 call sp_assign_customer_product ('user', 1, now());
 call sp_assign_customer_product ('user', 2, now());

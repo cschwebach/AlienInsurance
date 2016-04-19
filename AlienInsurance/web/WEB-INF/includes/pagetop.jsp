@@ -32,8 +32,9 @@
             <a href="index.jsp">
                 <h1>Alien Insurance</h1>
                 <p>They're out to get you!</p>
-            </a>
+            </a> 
         </header>
+        <jsp:include page="/WEB-INF/includes/nav.html" />
         <section>
             <p>Welcome<%= displayName %>! <%= link %></p>
         </section>
