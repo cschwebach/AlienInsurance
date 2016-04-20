@@ -36,10 +36,10 @@ public class Register extends HttpServlet {
         session.removeAttribute("error");
         
         if (null != session.getAttribute("user")) {
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("Home").forward(request, response);
         } 
         
-        request.getRequestDispatcher("/WEB-INF/jsps/Register.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/admin/Register.jsp").forward(request, response);
     }
 
     /**
@@ -91,7 +91,7 @@ public class Register extends HttpServlet {
                         if (userManager.attemptLogIn(userName, passwordOne)) {
                             HttpSession session = request.getSession(true);
                             session.setAttribute("user", userManager.getCurrentUser());
-                            request.getRequestDispatcher("index.jsp").forward(request, response);
+                            request.getRequestDispatcher("Home").forward(request, response);
                         } else {
                             error = "Something went wrong attempting to log in.";
                         }
@@ -102,11 +102,11 @@ public class Register extends HttpServlet {
                     error = "That user already exists.";
                 }
             }
-        }
-
-        if (!error.isEmpty()) {
-            request.getSession().setAttribute("error", error);
-            request.getRequestDispatcher("/WEB-INF/jsps/Register.jsp").forward(request, response);
+        } else {
+            if (!error.isEmpty()) {
+                request.getSession().setAttribute("error", error);
+                request.getRequestDispatcher("/WEB-INF/jsps/admin/Register.jsp").forward(request, response);
+            }
         }
     }
 

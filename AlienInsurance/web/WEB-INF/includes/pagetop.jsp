@@ -29,7 +29,7 @@
     </head>
     <body>
         <header>
-            <a href="index.jsp">
+            <a href="Home">
                 <h1>Alien Insurance</h1>
                 <p>They're out to get you!</p>
             </a> 

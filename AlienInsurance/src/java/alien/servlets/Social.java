@@ -5,7 +5,6 @@
  */
 package alien.servlets;
 
-import alien.businesslogic.UserManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,14 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Trent
  */
-@WebServlet(name = "LogIn", urlPatterns = {"/LogIn"})
-public class LogIn extends HttpServlet {
+@WebServlet(name = "Social", urlPatterns = {"/Social"})
+public class Social extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -32,14 +30,7 @@ public class LogIn extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        session.removeAttribute("error");
-        
-        if (null != session.getAttribute("user")) {
-            request.getRequestDispatcher("Home").forward(request, response);
-        }
-        
-        request.getRequestDispatcher("/WEB-INF/jsps/admin/LogIn.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/social/Social.jsp").forward(request, response);
     }
 
     /**
@@ -53,30 +44,7 @@ public class LogIn extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = request.getParameter("userName");
-        String password = request.getParameter("password");
-        String error = "";
-
-        HttpSession session = request.getSession();
-        UserManager userManager = new UserManager();
-        
-        if (userName.isEmpty() || password.isEmpty()) {
-            error = "Please enter your username and password.";
-        } else {
-            if (userManager.attemptLogIn(userName, password)) {
-                session.setAttribute("user", userManager.getCurrentUser());
-                request.getRequestDispatcher("Home").forward(request, response);
-            } else {
-                error = "Sorry, the information you entered was incorrect.";
-            }
-        }
-        
-        if (error.isEmpty()) {
-            error = "Sorry, an error occurred while processing your request.";
-        }
-        
-        session.setAttribute("error", error);
-        request.getRequestDispatcher("/WEB-INF/jsps/admin/LogIn.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/social/Social.jsp").forward(request, response);
     }
 
     /**

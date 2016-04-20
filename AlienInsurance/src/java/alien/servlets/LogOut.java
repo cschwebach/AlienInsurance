@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "LogOut", urlPatterns = {"/LogOut"})
 public class LogOut extends HttpServlet {
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -79,6 +78,6 @@ public class LogOut extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

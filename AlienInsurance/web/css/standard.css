@@ -10,12 +10,12 @@ html, body {
     font-family: sans-serif;
     background-color: #ddd;
 }
+
 .funny {
     width: 30%;
     height: auto;
     display: block;
     margin: 0 auto;
-    
 }
 
 .txtIndex{
@@ -30,9 +30,10 @@ header {
     margin:0;
     padding: 1em;
     height: 150px;
-    width: 100%;
-    background-image: url("../Images/mars-attacks-banner-art.jpg"); 
+    background-image: url("../Images/mars-attacks-banner-art.jpg");
+    background-size: contain;
     border-bottom: .25em solid #000;   
+    text-shadow: 4px 4px 4px #000;
 }
 
 header h1 {
@@ -49,6 +50,7 @@ header a {
 header p {
     margin-left: 7%;
     margin-top: 0;
+    font-size: 1.25em;
     color: white;
 }
 
@@ -68,7 +70,6 @@ main {
 footer {
     margin: 0;
     padding: 1em;
-    width: 100%;
     position: relative;
     background-color: #66FF66;
     border-top: .25em solid #000;
@@ -95,7 +96,6 @@ form label{
 
 form input {
     float: right;
-    
 }
 
 .error {
