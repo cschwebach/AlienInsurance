@@ -101,11 +101,11 @@ public class Register extends HttpServlet {
                     error = "That user already exists.";
                 }
             }
-        } else {
-            if (!error.isEmpty()) {
-                request.getSession().setAttribute("error", error);
-                request.getRequestDispatcher("/WEB-INF/jsps/admin/Register.jsp").forward(request, response);
-            }
+        }
+        
+        if (!error.isEmpty()) {
+            request.getSession().setAttribute("error", error);
+            request.getRequestDispatcher("/WEB-INF/jsps/admin/Register.jsp").forward(request, response);
         }
     }
 

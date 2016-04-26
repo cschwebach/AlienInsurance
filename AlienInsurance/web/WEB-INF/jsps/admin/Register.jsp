@@ -6,16 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/includes/pagetop.jsp" />
-<%
-    String error = "";
-    
-    if (null != session.getAttribute("error")) {
-        error = session.getAttribute("error").toString();
-    }
-%>
         <h1>Account Registration</h1>
          <div>
-            <p class="error"><%= error %></p>
             <form method="POST">
                 <label for="userName">User Name</label>
                 <input type="text" name="userName" /><br />

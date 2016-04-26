@@ -15,7 +15,7 @@
             <c:choose>
                 <c:when test="${!blog.disableComments}">
                     <form action="POST">
-                        <label name="blogComment">Add Comment</label>
+                        <label for="blogComment">Add Comment</label>
                         <input type="text" name="blogComment" /><br />
                         <input type="submit" value="Submit" />
                     </form>

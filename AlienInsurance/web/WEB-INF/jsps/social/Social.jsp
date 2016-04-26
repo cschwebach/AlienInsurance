@@ -8,6 +8,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/includes/pagetop.jsp" />
         <h1>View collections of blogs and comment on them.</h1>
+        <a href=""
         <table>
             <thead>
                 <tr>
