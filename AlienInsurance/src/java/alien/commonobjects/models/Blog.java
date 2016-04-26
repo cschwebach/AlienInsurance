@@ -6,6 +6,7 @@
 package alien.commonobjects.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import org.joda.time.DateTime;
 
@@ -23,7 +24,7 @@ public class Blog implements Serializable {
     private DateTime dateModified;
     private String modifiedBy;
     private boolean active = true;
-    private Collection<BlogComment> blogComments;
+    private ArrayList<BlogComment> blogComments;
     
     public Blog() {
         
@@ -101,11 +102,11 @@ public class Blog implements Serializable {
         this.active = active;
     }
 
-    public Collection<BlogComment> getBlogComments() {
+    public ArrayList<BlogComment> getBlogComments() {
         return blogComments;
     }
 
-    public void setBlogComments(Collection<BlogComment> blogComments) {
+    public void setBlogComments(ArrayList<BlogComment> blogComments) {
         this.blogComments = blogComments;
     }
 }

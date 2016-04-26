@@ -23,8 +23,6 @@ public class User implements Serializable {
     private String modifiedBy;
     private boolean active = true;
     private Collection<UserRole> userRoles;
-    private Collection<Blog> blogs;
-    private Collection<BlogComment> blogComments;
     
     public User(String userName) {
         this.userName = userName;
@@ -96,22 +94,6 @@ public class User implements Serializable {
 
     public void setUserRoles(Collection<UserRole> userRoles) {
         this.userRoles = userRoles;
-    }
-
-    public Collection<Blog> getBlogs() {
-        return blogs;
-    }
-
-    public void setBlogs(Collection<Blog> blogs) {
-        this.blogs = blogs;
-    }
-
-    public Collection<BlogComment> getBlogComments() {
-        return blogComments;
-    }
-
-    public void setBlogComments(Collection<BlogComment> blogComments) {
-        this.blogComments = blogComments;
     }
     
 }

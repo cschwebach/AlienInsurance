@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/thurs_java/AlienInsurance/AlienInsurance/src/java/alien/commonobjects/models/Blog.java</file>
+            <file>file:/D:/thurs_java/AlienInsurance/AlienInsurance/web/sessionKiller.jsp</file>
+            <file>file:/D:/thurs_java/AlienInsurance/AlienInsurance/src/java/alien/dataaccess/BlogAccessor.java</file>
+            <file>file:/D:/thurs_java/AlienInsurance/AlienInsurance/src/java/alien/commonobjects/misc/Blogs.java</file>
+            <file>file:/D:/thurs_java/AlienInsurance/AlienInsurance/web/WEB-INF/jsps/social/Social.jsp</file>
+            <file>file:/D:/thurs_java/AlienInsurance/AlienInsurance/src/java/alien/servlets/Social.java</file>
+            <file>file:/D:/thurs_java/AlienInsurance/AlienInsurance/src/java/alien/businesslogic/BlogManager.java</file>
+        </group>
     </open-files>
 </project-private>
