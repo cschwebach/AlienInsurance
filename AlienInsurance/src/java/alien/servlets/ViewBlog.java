@@ -32,7 +32,7 @@ public class ViewBlog extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionAssister.ClearErrors(request);
+        SessionAssister.clearErrors(request);
         
         Blog blog = null;
         
@@ -61,7 +61,7 @@ public class ViewBlog extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        request.getRequestDispatcher("/WEB-INF/jsps/social/ViewBlog.jsp").forward(request, response);
     }
 
     /**

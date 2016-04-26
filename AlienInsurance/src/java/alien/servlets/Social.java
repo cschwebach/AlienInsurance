@@ -33,7 +33,7 @@ public class Social extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionAssister.ClearErrors(request);
+        SessionAssister.clearErrors(request);
         
         Collection<Blog> blogs = null;
         

@@ -30,7 +30,7 @@ public class CoveragePlans extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionAssister.ClearErrors(request);
+        SessionAssister.clearErrors(request);
         
         request.getRequestDispatcher("/WEB-INF/jsps/customer/CoveragePlans.jsp").forward(request, response);
     }

@@ -7,6 +7,7 @@ package alien.servlets;
 
 import alien.helpers.SessionAssister;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Trent
  */
-@WebServlet(name = "Administration", urlPatterns = {"/Administration"})
-public class Administration extends HttpServlet {
+@WebServlet(name = "CreateBlog", urlPatterns = {"/CreateBlog"})
+public class CreateBlog extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -32,7 +33,7 @@ public class Administration extends HttpServlet {
             throws ServletException, IOException {
         SessionAssister.clearErrors(request);
         
-        request.getRequestDispatcher("/WEB-INF/jsps/admin/Administration.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/social/CreateBlog.jsp").forward(request, response);
     }
 
     /**
@@ -46,7 +47,7 @@ public class Administration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsps/admin/Administration.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/social/CreateBlog.jsp").forward(request, response);
     }
 
     /**

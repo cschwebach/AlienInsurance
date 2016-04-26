@@ -31,7 +31,7 @@ public class LogOut extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionAssister.ClearErrors(request);
+        SessionAssister.clearErrors(request);
         
         HttpSession session = request.getSession(false);
         

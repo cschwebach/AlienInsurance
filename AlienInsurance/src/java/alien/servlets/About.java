@@ -30,7 +30,7 @@ public class About extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionAssister.ClearErrors(request);
+        SessionAssister.clearErrors(request);
         
         request.getRequestDispatcher("/WEB-INF/jsps/admin/About.jsp").forward(request, response);
     }

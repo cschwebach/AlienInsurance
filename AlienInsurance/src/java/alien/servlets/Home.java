@@ -31,7 +31,7 @@ public class Home extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionAssister.ClearErrors(request);
+        SessionAssister.clearErrors(request);
         
         request.getRequestDispatcher("/WEB-INF/jsps/admin/index.jsp").forward(request, response);
     }

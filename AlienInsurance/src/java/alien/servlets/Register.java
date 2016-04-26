@@ -32,11 +32,9 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionAssister.ClearErrors(request);
+        SessionAssister.clearErrors(request);
         
-        HttpSession session = request.getSession(false);
-        
-        if (null != session.getAttribute("user")) {
+        if (SessionAssister.loggedIn(request)) {
             request.getRequestDispatcher("Home").forward(request, response);
         } 
         
