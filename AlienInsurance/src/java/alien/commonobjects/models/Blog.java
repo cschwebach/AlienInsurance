@@ -24,7 +24,7 @@ public class Blog implements Serializable {
     private DateTime dateModified;
     private String modifiedBy;
     private boolean active = true;
-    private ArrayList<BlogComment> blogComments;
+    private Collection<BlogComment> blogComments;
     
     public Blog() {
         
@@ -102,11 +102,11 @@ public class Blog implements Serializable {
         this.active = active;
     }
 
-    public ArrayList<BlogComment> getBlogComments() {
+    public Collection<BlogComment> getBlogComments() {
         return blogComments;
     }
 
-    public void setBlogComments(ArrayList<BlogComment> blogComments) {
+    public void setBlogComments(Collection<BlogComment> blogComments) {
         this.blogComments = blogComments;
     }
 }

@@ -168,7 +168,7 @@ public class BlogAccessor {
     }
     
     public static Collection<Blog> retrieveUserBlogs(String userName) throws SQLException {
-        Collection<Blog> blogs = null;
+        Collection<Blog> blogs = new ArrayList<>();
         
         Connection conn = DbConnection.getConnection();
         
@@ -181,8 +181,6 @@ public class BlogAccessor {
             ResultSet rs = cmd.executeQuery();
             
             if (rs.first()) {
-                blogs = new ArrayList<>();
-                
                 Blog blog;
                 
                 while (rs.next()) {
@@ -225,7 +223,7 @@ public class BlogAccessor {
     }
     
     public static Collection<BlogComment> retrieveUserBlogComments(String userName) throws SQLException {
-        Collection<BlogComment> blogComments = null;
+        Collection<BlogComment> blogComments = new ArrayList<>();
         
         Connection conn = DbConnection.getConnection();
         
@@ -238,8 +236,6 @@ public class BlogAccessor {
             ResultSet rs = cmd.executeQuery();
             
             if (rs.first()) {
-                blogComments = new ArrayList<>();
-                
                 BlogComment blogComment;
                 
                 while (rs.next()) {
@@ -325,8 +321,8 @@ public class BlogAccessor {
         return blog;
     }
     
-    public static ArrayList<BlogComment> retrieveBlogComments(int blogId) throws SQLException {
-        ArrayList<BlogComment> blogComments = null;
+    public static Collection<BlogComment> retrieveBlogComments(int blogId) throws SQLException {
+        Collection<BlogComment> blogComments = new ArrayList<>();
         
         Connection conn = DbConnection.getConnection();
         
@@ -339,8 +335,6 @@ public class BlogAccessor {
             ResultSet rs = cmd.executeQuery();
             
             if (rs.first()) {
-                blogComments = new ArrayList<>();
-                
                 BlogComment blogComment;
                 
                 while (rs.next()) {
@@ -380,8 +374,8 @@ public class BlogAccessor {
         return blogComments;
     }
     
-    public static ArrayList<Blog> retrieveBlogs() throws SQLException {
-        ArrayList<Blog> blogs = new ArrayList<>();
+    public static Collection<Blog> retrieveBlogs() throws SQLException {
+        Collection<Blog> blogs = new ArrayList<>();
         
         Connection conn = DbConnection.getConnection();
         

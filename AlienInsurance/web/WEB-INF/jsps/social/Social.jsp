@@ -11,9 +11,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/includes/pagetop.jsp" />
         <h1>View collections of blogs and comment on them.</h1>
-        <c:forEach var="blog" items="${wtf}">
-            <h2>${blog}</h2>
+        <c:forEach var="blog" items="${blogs}">
+            <h2>${blog.title}</h2>
         </c:forEach>
-        
-        ${blog.title}
 <jsp:include page="/WEB-INF/includes/pagebottom.jsp" />
