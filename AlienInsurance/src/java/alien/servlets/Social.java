@@ -7,10 +7,9 @@ package alien.servlets;
 
 import alien.businesslogic.BlogManager;
 import alien.commonobjects.models.Blog;
+import alien.helpers.SessionAssister;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +33,8 @@ public class Social extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        SessionAssister.ClearErrors(request);
+        
         Collection<Blog> blogs = null;
         
         try {

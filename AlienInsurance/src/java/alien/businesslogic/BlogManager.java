@@ -111,8 +111,7 @@ public class BlogManager {
         
         try {
             blog = BlogAccessor.retrieveBlog(blogId);
-            blog.setBlogComments(
-                    BlogAccessor.retrieveBlogComments(blogId));
+            blog.setBlogComments(BlogAccessor.retrieveBlogComments(blogId));
         } catch (Exception ex) { }
         
         return blog;

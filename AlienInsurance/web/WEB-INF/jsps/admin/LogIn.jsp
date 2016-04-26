@@ -15,7 +15,7 @@
 %>
         <h1>Log In</h1>
         <div>
-            <p class="error"><%= error %></p>
+            
             <form method="POST">
                 <label for="userName">User Name </label><input type="text" name="userName" /><br />
                 <label for="password">Password </label><input type="password" name="password" /><br />

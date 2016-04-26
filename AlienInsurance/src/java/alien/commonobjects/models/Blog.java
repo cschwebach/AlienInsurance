@@ -6,7 +6,6 @@
 package alien.commonobjects.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import org.joda.time.DateTime;
 

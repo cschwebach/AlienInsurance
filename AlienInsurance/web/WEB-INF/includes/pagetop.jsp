@@ -17,6 +17,12 @@
         displayName = " " + currentUser.getFirstName() + " " + currentUser.getLastName();
         link = "<a href='LogOut'>Log Out</a>";
     } 
+
+    String error = "";
+    
+    if (null != session.getAttribute("error")) {
+        error = session.getAttribute("error").toString();
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -39,3 +45,4 @@
             <p>Welcome<%= displayName %>! <%= link %></p>
         </section>
         <main>
+            <p class="error"><%= error %></p>

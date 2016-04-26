@@ -334,33 +334,31 @@ public class BlogAccessor {
             
             ResultSet rs = cmd.executeQuery();
             
-            if (rs.first()) {
-                BlogComment blogComment;
-                
-                while (rs.next()) {
-                    blogComment = new BlogComment();
-                    
-                    blogComment.setBlogId(
-                            blogId);
-                    blogComment.setBlogCommentId(
-                            rs.getInt("blog_comment_id"));
-                    blogComment.setContent(
-                            rs.getString("content"));
-                    blogComment.setCreatedBy(
-                            rs.getString("created_by"));
-                    blogComment.setDateCreated(
-                            ConvertTime.getDateTime(
-                                    rs.getTimestamp("date_created")
-                            ));
-                    blogComment.setDateModified(
-                            ConvertTime.getDateTime(
-                                    rs.getTimestamp("date_modified")
-                            ));
-                    blogComment.setModifiedBy(
-                            rs.getString("modified_by"));
-                    
-                    blogComments.add(blogComment);
-                }
+            BlogComment blogComment;
+
+            while (rs.next()) {
+                blogComment = new BlogComment();
+
+                blogComment.setBlogId(
+                        blogId);
+                blogComment.setBlogCommentId(
+                        rs.getInt("blog_comment_id"));
+                blogComment.setContent(
+                        rs.getString("content"));
+                blogComment.setCreatedBy(
+                        rs.getString("created_by"));
+                blogComment.setDateCreated(
+                        ConvertTime.getDateTime(
+                                rs.getTimestamp("date_created")
+                        ));
+                blogComment.setDateModified(
+                        ConvertTime.getDateTime(
+                                rs.getTimestamp("date_modified")
+                        ));
+                blogComment.setModifiedBy(
+                        rs.getString("modified_by"));
+
+                blogComments.add(blogComment);
             }
         } catch (SQLException ex) {
             throw ex;

@@ -5,8 +5,8 @@
  */
 package alien.servlets;
 
+import alien.helpers.SessionAssister;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +31,8 @@ public class LogOut extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        SessionAssister.ClearErrors(request);
+        
         HttpSession session = request.getSession(false);
         
         if (null != session) {

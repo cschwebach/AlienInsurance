@@ -5,8 +5,8 @@
  */
 package alien.servlets;
 
+import alien.helpers.SessionAssister;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +30,8 @@ public class Claims extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        SessionAssister.ClearErrors(request);
+        
         request.getRequestDispatcher("/WEB-INF/jsps/customer/Claims.jsp").forward(request, response);
     }
 

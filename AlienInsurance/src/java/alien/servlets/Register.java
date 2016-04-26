@@ -6,8 +6,8 @@
 package alien.servlets;
 
 import alien.businesslogic.UserManager;
+import alien.helpers.SessionAssister;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,8 +32,9 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        SessionAssister.ClearErrors(request);
+        
         HttpSession session = request.getSession(false);
-        session.removeAttribute("error");
         
         if (null != session.getAttribute("user")) {
             request.getRequestDispatcher("Home").forward(request, response);

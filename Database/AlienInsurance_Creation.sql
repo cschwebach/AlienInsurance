@@ -550,7 +550,7 @@ create procedure sp_select_blog_blog_comments (
     in active_param bit
 )
 begin
-	select blog_id, content, created_by, date_created, date_modified, modified_by, active
+	select blog_comment_id, content, created_by, date_created, date_modified, modified_by, active
     from blog_comments
     where blog_id = blog_id_param;
 end$$
