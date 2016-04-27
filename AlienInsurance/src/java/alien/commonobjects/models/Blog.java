@@ -68,7 +68,7 @@ public class Blog implements Serializable {
     public void setDisableComments(boolean disableComments) {
         this.disableComments = disableComments;
     }
-
+    
     public DateTime getDateCreated() {
         return dateCreated;
     }

@@ -103,7 +103,7 @@ public class BlogAccessor {
         Connection conn = DbConnection.getConnection();
         
         try {
-            CallableStatement cmd = conn.prepareCall("{call sp_assign_blog_comment(?)}");
+            CallableStatement cmd = conn.prepareCall("{call sp_assign_blog_comment(?, ?, ?, ?)}");
             
             cmd.setInt(1, 
                     blogComment.getBlogId());

@@ -32,8 +32,6 @@ public class ViewBlog extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionAssister.clearErrors(request);
-        
         Blog blog = null;
         
         try {
@@ -46,8 +44,6 @@ public class ViewBlog extends HttpServlet {
         } else {
             request.getRequestDispatcher("/WEB-INF/jsps/errors/Generic.jsp").forward(request, response);
         }
-        
-        
     }
 
     /**
@@ -61,7 +57,44 @@ public class ViewBlog extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsps/social/ViewBlog.jsp").forward(request, response);
+        int blogId = 0;
+        String content = request.getParameter("content");
+
+        String error = "";
+        
+        try {
+            blogId = Integer.parseInt(request.getParameter("blogId"));
+        } catch (Exception ex) {
+            error = "You seem to have bastardized the blog.";
+        }
+        
+        if (SessionAssister.loggedIn(request)) {
+            if (content.isEmpty()) {
+                error = "Comment is required.";
+            }
+
+            if (error.isEmpty()) {
+                BlogManager blogManager = new BlogManager(
+                    SessionAssister.retrieveSessionUser(request).getUserName());
+                try {
+                    if (!blogManager.createBlogComment(blogId, content)) {
+                        error = "There was an error adding your comment.";
+                    }
+                } catch (Exception ex) {
+                    error = "There was an error adding your comment.";
+                }
+            }
+        } else {
+            error = "You must be logged in to comment.";
+        }
+        
+        if (!error.isEmpty()) {
+            SessionAssister.addError(request, error);
+        } else {
+            SessionAssister.clearErrors(request);
+        }
+
+        response.sendRedirect("ViewBlog?blogId=" + blogId);
     }
 
     /**

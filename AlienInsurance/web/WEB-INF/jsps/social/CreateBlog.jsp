@@ -6,9 +6,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/includes/pagetop.jsp" />
         <h2>Create Blog</h2>
-        <form method="POST">
+        <form method="POST" class="createBlogForm">
             <label for="title">Title</label>
-            <input type="text" name="title" /><br />
+            <div>
+                <input type="text" name="title" /><br />
+            </div>
+            
             <label for="content">Content</label>
             <div>
                 <textarea type="text" name="content"></textarea><br />

@@ -191,6 +191,8 @@ create procedure sp_assign_blog_comment (
 begin
 	insert into blog_comments(blog_id, content, created_by, date_created, date_modified, modified_by, active)
     values(blog_id_param, content_param, created_by_param, date_created_param, null, null, default);
+    
+    select last_insert_id();
 end$$
 
 create procedure sp_update_user (

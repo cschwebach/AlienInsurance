@@ -96,6 +96,7 @@ form label{
 
 form input {
     float: right;
+    border: 3px solid #cccccc;
 }
 
 .error {
@@ -159,5 +160,112 @@ nav ul li a:active {
     padding-left: 5px;
     padding-right: 5px;
 }
+
+.blogTable {
+    margin: 0 auto;
+    width: 50%;
+    border-spacing: 0;
+}
+
+.blogTable th {
+    text-align:left;
+}
+
+.blogTable td {
+    padding: .5em;
+    width: 33%;
+}
+
+.blogTable tbody tr:hover {
+    background-color: #008800;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+}
+
+.blogTable tbody tr:nth-child(odd) {
+    background-color: #66FF66;
+}
+
+.blogTable tbody tr:nth-child(odd):hover {
+    background-color: #004400;
+}
+
+.createBlogForm {
+    width: 50%;
+}
+
+.createBlogForm label{
+    font-weight:bold;
+    padding: 15px;
+}
+.createBlogForm input[type=text] {
+    padding: 5px;
+    width: 600px;
+    
+}
+.createBlogForm textarea{
+    float: right;
+    width: 600px;
+    height: 120px;
+    border: 3px solid #cccccc;
+    padding: 5px;
+    resize: none;
+    margin-bottom: 15px;
+    margin-left: 0;
+}
+
+.createBlogForm input[type=checkbox] {
+    background-color: #004400;
+    clear:both;
+}
+
+.blogContent {
+    width: 100%;
+    padding: 15px;
+    background-color: #fff;
+    border: 3px solid #cccccc;
+    margin: 15px auto;
+}
+
+.blogCommentForm {
+    width:100%;
+    padding: 15px;
+    display:table;
+}
+
+.blogCommentForm div {
+    display:table-row;
+}
+
+.blogCommentForm p {
+    display: block;
+    text-align:right;
+}
+
+.blogCommentForm input {
+    clear:both;
+    display: table-cell;
+}
+
+.blogCommentForm input[type=text] {
+    padding: 5px;
+    width: 500px;
+}
+
+.blogComments {
+    margin: 15px auto;
+    width: 100%;
+    padding: 15px;
+}
+
+.blogComment {
+    padding: 15px;
+    background-color: #fff;
+    border: 3px solid #cccccc;
+    margin-bottom: 5px;
+}
+
+
 
 

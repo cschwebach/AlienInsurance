@@ -8,7 +8,9 @@ package alien.businesslogic;
 import alien.commonobjects.models.Blog;
 import alien.commonobjects.models.BlogComment;
 import alien.dataaccess.BlogAccessor;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import org.joda.time.DateTime;
 
 /**
@@ -71,9 +73,9 @@ public class BlogManager {
         blogComment.setDateCreated(new DateTime());
         
         try {
-            int blogCommentId = 0;
+            int blogCommentId = BlogAccessor.createBlogComment(blogComment);
             
-            if (flag = 0 != BlogAccessor.createBlogComment(blogComment)) {
+            if (flag = 0 != blogCommentId) {
                 blogComment.setBlogCommentId(blogCommentId);
             }
         } catch (Exception ex) { blogComment = null; }
@@ -111,7 +113,12 @@ public class BlogManager {
         
         try {
             blog = BlogAccessor.retrieveBlog(blogId);
-            blog.setBlogComments(BlogAccessor.retrieveBlogComments(blogId));
+            
+            ArrayList<BlogComment> blogComments = new ArrayList<>(BlogAccessor.retrieveBlogComments(blogId));
+            
+            Collections.sort(blogComments, (BlogComment bc1, BlogComment bc2) -> bc2.getDateCreated().compareTo(bc1.getDateCreated()));
+            
+            blog.setBlogComments(blogComments);
         } catch (Exception ex) { }
         
         return blog;
