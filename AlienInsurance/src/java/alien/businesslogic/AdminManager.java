@@ -21,34 +21,50 @@ public class AdminManager {
         this.userName = userName;
     }
     
-    public Collection<User> RetrieveUsers() {
+    public Collection<User> retrieveUsers() {
         Collection<User> users = null;
         
         try {
-            users = AdminAccessor.RetrieveUsers(UserTypes.User);
+            users = AdminAccessor.retrieveUsers(UserTypes.User);
         } catch (Exception ex) { }
         
         return users;
     }
     
-    public Collection<User> RetrieveEmployees() {
+    public Collection<User> retrieveEmployees() {
         Collection<User> employees = null;
         
         try {
-            employees = AdminAccessor.RetrieveUsers(UserTypes.Employee);
+            employees = AdminAccessor.retrieveUsers(UserTypes.Employee);
         } catch (Exception ex) { }
         
         return employees;
     }
     
-    public boolean DemoteEmployee(String userName) {
+    public boolean demoteEmployee(String userName) {
         boolean flag = false;
+        
+        try {
+            flag = 1 == AdminAccessor.removeRole(userName, UserTypes.Employee, this.userName);
+            
+            if (flag) {
+                flag = 1 == AdminAccessor.addRole(userName, UserTypes.User, this.userName);
+            }
+        } catch (Exception ex) { flag = false; }
         
         return flag;
     }
     
-    public boolean PromoteUser(String userName) {
+    public boolean promoteUser(String userName) {
         boolean flag = false;
+        
+        try {
+            flag = 1 == AdminAccessor.addRole(userName, UserTypes.Employee, this.userName);
+            
+            if (flag) {
+                flag = 1 == AdminAccessor.removeRole(userName, UserTypes.User, this.userName);
+            }
+        } catch (Exception ex) { flag = false; }
         
         return flag;
     }

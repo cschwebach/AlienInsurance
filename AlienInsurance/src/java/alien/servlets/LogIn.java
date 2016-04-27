@@ -65,6 +65,7 @@ public class LogIn extends HttpServlet {
             if (userManager.attemptLogIn(userName, password)) {
                 session.setAttribute("user", userManager.getCurrentUser());
                 request.getRequestDispatcher("Home").forward(request, response);
+                return;
             } else {
                 error = "Sorry, the information you entered was incorrect.";
             }
@@ -72,10 +73,9 @@ public class LogIn extends HttpServlet {
         
         if (error.isEmpty()) {
             error = "Sorry, an error occurred while processing your request.";
+            SessionAssister.addError(request, error);
+            request.getRequestDispatcher("/WEB-INF/jsps/admin/LogIn.jsp").forward(request, response);
         }
-        
-        SessionAssister.addError(request, error);
-        request.getRequestDispatcher("/WEB-INF/jsps/admin/LogIn.jsp").forward(request, response);
     }
 
     /**

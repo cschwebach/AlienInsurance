@@ -5,14 +5,15 @@
  */
 package alien.commonobjects.models;
 
+import java.io.Serializable;
 import org.joda.time.DateTime;
 
 /**
  *
  * @author Trent
  */
-public class UserRole {
-    private String roleType;
+public class UserRole implements Serializable {
+    private final String roleType;
     private String description;
     private DateTime dateCreated;
     private DateTime dateModified;

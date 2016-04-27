@@ -7,11 +7,14 @@ package alien.dataaccess;
 
 import alien.commonobjects.models.User;
 import alien.commonobjects.models.UserTypes;
+import alien.helpers.ConvertTime;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -19,7 +22,7 @@ import java.util.Collection;
  */
 public class AdminAccessor {
     
-    public static Collection<User> RetrieveUsers(UserTypes userType) throws Exception {
+    public static Collection<User> retrieveUsers(UserTypes userType) throws Exception {
         ArrayList<User> users = new ArrayList<>();
         
         Connection conn = DbConnection.getConnection();
@@ -28,9 +31,37 @@ public class AdminAccessor {
             CallableStatement cmd = conn.prepareCall("{call sp_select_users_by_role_type(?, ?)}");
             
             cmd.setString(1, 
-                    retrieveUserTypeParam(userType));
+                    userType.name());
             cmd.setBoolean(2, 
                     true);
+            
+            ResultSet rs = cmd.executeQuery();
+            
+            User user;
+            
+            while (rs.next()) {
+                user = new User(
+                        rs.getString("user_name"));
+                
+                user.setFirstName(
+                        rs.getString("first_name"));
+                user.setLastName(
+                        rs.getString("last_name"));
+                user.setEmail(
+                        rs.getString("email"));
+                user.setDateCreated(
+                        ConvertTime.getDateTime(
+                                rs.getTimestamp("date_created")
+                        ));
+                user.setDateModified(
+                        ConvertTime.getDateTime(
+                                rs.getTimestamp("date_modified")
+                        ));
+                user.setModifiedBy(
+                        rs.getString("modified_by"));
+                
+                users.add(user);
+            }
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -43,28 +74,68 @@ public class AdminAccessor {
         return users;
     }
     
-    public static int DemoteEmployee(String userName) {
+    public static int removeRole(String userName, UserTypes userType, String modifiedBy) throws SQLException {
         int rowsAffected = 0;
         
-        return rowsAffected;
-    }
-    
-    public static int PromoteUser(String userName) {
-        int rowsAffected = 0;
+        Connection conn = DbConnection.getConnection();
         
-        return rowsAffected;
-    }
-    
-    private static String retrieveUserTypeParam(UserTypes userType) {
-        String result = "User";
-        
-        if (UserTypes.Administrator == userType) {
-            result = "Administrator";
-        } else if (UserTypes.Employee == userType) {
-            result = "Employee";
+        try {
+            CallableStatement cmd = conn.prepareCall("{call sp_retract_user_role(?, ?, ?, ?)}");
+            
+            cmd.setString(1, 
+                    userName);
+            cmd.setString(2, 
+                    userType.name());
+            cmd.setTimestamp(3, 
+                    ConvertTime.getTimestamp(
+                            new DateTime()
+                    ));
+            cmd.setString(4, 
+                    modifiedBy);
+            
+            rowsAffected = cmd.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try { 
+                if (null != conn) 
+                { conn.close(); }
+            } catch (Exception ex) { throw ex; }
         }
         
-        return result;
+        return rowsAffected;
+    }
+    
+    public static int addRole(String userName, UserTypes userType, String modifiedBy) throws SQLException {
+        int rowsAffected = 0;
+        
+        Connection conn = DbConnection.getConnection();
+        
+        try {
+            CallableStatement cmd = conn.prepareCall("{call sp_assign_user_role(?, ?, ?, ?)}");
+            
+            cmd.setString(1, 
+                    userName);
+            cmd.setString(2, 
+                    userType.name());
+            cmd.setTimestamp(3, 
+                    ConvertTime.getTimestamp(
+                            new DateTime()
+                    ));
+            cmd.setString(4, 
+                    modifiedBy);
+            
+            rowsAffected = cmd.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try { 
+                if (null != conn) 
+                { conn.close(); }
+            } catch (Exception ex) { throw ex; }
+        }
+        
+        return rowsAffected;
     }
 }
 

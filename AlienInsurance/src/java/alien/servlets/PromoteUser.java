@@ -6,11 +6,9 @@
 package alien.servlets;
 
 import alien.businesslogic.AdminManager;
-import alien.commonobjects.models.User;
 import alien.commonobjects.models.UserTypes;
 import alien.helpers.SessionAssister;
 import java.io.IOException;
-import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Trent
  */
-@WebServlet(name = "Administration", urlPatterns = {"/Administration"})
-public class Administration extends HttpServlet {
+@WebServlet(name = "PromoteUser", urlPatterns = {"/PromoteUser"})
+public class PromoteUser extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -34,30 +32,29 @@ public class Administration extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        SessionAssister.clearErrors(request);
+        
         if (SessionAssister.isRole(request, UserTypes.Administrator)) {
             String error = "";
             
-            AdminManager adminManager = new AdminManager(
+            String userName = request.getParameter("userName");
+            
+            if (userName.isEmpty()) {
+                error = "No valid user found.";
+            } else {
+                AdminManager adminManager = new AdminManager(
                     SessionAssister.retrieveSessionUser(request).getUserName());
             
-            Collection<User> users = null,
-                    employees = null;
-            
-            try {
-                users 
-                        = adminManager.retrieveUsers();
-                employees 
-                        = adminManager.retrieveEmployees();
-            } catch (Exception ex) {
-                error = "There was a problem retrieve user data.";
+                if (!adminManager.promoteUser(userName)) {
+                    error = "Promoting user failed.";
+                }
             }
             
-            if (error.isEmpty()) {
-                request.setAttribute("users", users);
-                request.setAttribute("employees", employees);
+            if (!error.isEmpty()) {
+                SessionAssister.addError(request, error);
             }
             
-            request.getRequestDispatcher("/WEB-INF/jsps/admin/Administration.jsp").forward(request, response);
+            response.sendRedirect("Administration");
         } else {
             request.getRequestDispatcher("/WEB-INF/jsps/errors/AdminOnly.jsp").forward(request, response);
         }
@@ -74,7 +71,7 @@ public class Administration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsps/admin/Administration.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/errors/AdminOnly.jsp").forward(request, response);
     }
 
     /**
@@ -86,5 +83,4 @@ public class Administration extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-
 }

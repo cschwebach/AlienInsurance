@@ -129,11 +129,39 @@ end$$
 create procedure sp_assign_user_role (
 	in user_name_param varchar(30),
     in role_type_param varchar(30),
-    in date_created_param datetime
+    in date_created_param datetime,
+    in created_by_param varchar(30)
 )
 begin
-	insert into user_roles(user_name, role_type, date_created, date_modified, modified_by, active)
-    values(user_name_param, role_type_param, date_created_param, null, null, default);
+	if exists (select 1 from user_roles where user_name = user_name_param and role_type = role_type_param) then
+		update user_roles
+        set active = 1,
+			date_modified = date_created_param,
+            modified_by = created_by_param
+        where user_name = user_name_param and role_type = role_type_param;
+    else
+		insert into user_roles(user_name, role_type, date_created, date_modified, modified_by, active)
+		values(user_name_param, role_type_param, date_created_param, null, null, default);
+    end if;
+end$$
+
+create procedure sp_retract_user_role (
+	in user_name_param varchar(30),
+    in role_type_param varchar(30),
+    in date_modified_param datetime,
+    in modified_by_param varchar(30)
+)
+begin
+	if exists (select 1 from user_roles where user_name = user_name_param and role_type = role_type_param) then
+		update user_roles
+        set active = 0,
+			date_modified = date_modified_param,
+            modified_by = modified_by_param
+        where user_name = user_name_param and role_type = role_type_param;
+    else
+		insert into user_roles(user_name, role_type, date_created, date_modified, modified_by, active)
+		values(user_name_param, role_type_param, date_modified_param, date_modified_param, modified_by_param, 0);
+    end if;
 end$$
 
 create procedure sp_insert_product (
@@ -584,11 +612,11 @@ create procedure sp_select_users_by_role_type (
     in active_param bit
 )
 begin
-	select user_name, first_name, last_name, email, date_created, date_modified, modified_by, active 
+	select u.user_name, u.first_name, u.last_name, u.email, u.date_created, u.date_modified, u.modified_by, u.active 
     from users as u 
     inner join user_roles as ur
 		on u.user_name = ur.user_name
-    where active = active_param and ur.role_type = role_type_param;
+    where u.active = active_param and ur.role_type = role_type_param and ur.active = 1;
 end$$
 
 delimiter ; 
@@ -603,6 +631,9 @@ grant execute on procedure sp_insert_role
 to 'alienuser'@'%';
 
 grant execute on procedure sp_assign_user_role
+to 'alienuser'@'%';
+
+grant execute on procedure sp_retract_user_role
 to 'alienuser'@'%';
 
 grant execute on procedure sp_insert_product
@@ -723,13 +754,13 @@ call sp_insert_role ('User', 'Generic User');
 call sp_insert_role ('Employee', 'Company representative');
 
 call sp_insert_user ('admin', 'Password_123', 'System', 'Administrator', 'admin@alien.com',  now());
-call sp_assign_user_role ('admin', 'Administrator', now());
+call sp_assign_user_role ('admin', 'Administrator', now(), 'Administrator');
 
 call sp_insert_user ('user', 'Password_123', 'John', 'Doe', 'jdoe@sample.com', now());
-call sp_assign_user_role('user', 'User', now());
+call sp_assign_user_role('user', 'User', now(), 'Administrator');
 
 call sp_insert_user ('employee', 'Password_123', 'Rick', 'Smith', 'rsmith@alien.com',  now());
-call sp_assign_user_role ('employee', 'Employee', now());
+call sp_assign_user_role ('employee', 'Employee', now(), 'Administrator');
 
 call sp_insert_product ('Individual Coverage', 'Covers body parts, alien abductions (leaving planet), and probing, also includes personal belongings in case the out of this world beings steal from you during your encounter. $1200 deductible.', 567.75, now());
 call sp_insert_product ('Family Coverage', 'Covers all members of immediate family’s body parts, alien abductions (leaving planet), personal belongings, and also includes all of the above for pets. $13499 deductible.', 2345.25, now());
