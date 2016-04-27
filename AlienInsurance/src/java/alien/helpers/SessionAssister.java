@@ -7,6 +7,8 @@ package alien.helpers;
 
 import alien.commonobjects.models.User;
 import alien.commonobjects.models.UserRole;
+import alien.commonobjects.models.UserTypes;
+import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -33,18 +35,17 @@ public class SessionAssister {
         return null != session.getAttribute("user");
     }
     
-    public static boolean isRole(HttpServletRequest request, String roleType) {
+    public static boolean isRole(HttpServletRequest request, UserTypes userType) {
         boolean result = false;
         
         User user = retrieveSessionUser(request);
         
         if (null != user) {
-            UserRole[] userRoles = (UserRole[])user.getUserRoles().toArray();
+            Collection<UserRole> rolesCollection = user.getUserRoles();
+            UserRole[] userRoles = rolesCollection.toArray(new UserRole[rolesCollection.size()]);
             
-            boolean flag = false;
-            
-            for (int i = 0; i < userRoles.length && !flag; i++) {
-                flag = userRoles[i].getRoleType().equalsIgnoreCase(roleType);
+            for (int i = 0; i < userRoles.length && !result; i++) {
+                result = userRoles[i].getRoleType().equalsIgnoreCase(userType.name());
             }
         }
         

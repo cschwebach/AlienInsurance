@@ -166,7 +166,7 @@ public class UserAccessor {
     }
     
     public Collection<UserRole> retrieveUserRoles(String userName) throws SQLException {
-        Collection<UserRole> userRoles = null;
+        Collection<UserRole> userRoles = new ArrayList<>();
         
         Connection conn = DbConnection.getConnection();
         
@@ -180,30 +180,26 @@ public class UserAccessor {
             
             ResultSet rs = cmd.executeQuery();
             
-            if (rs.first()) {
-                userRoles = new ArrayList<>();
-                
-                UserRole userRole;
-                
-                while (rs.next()) {
-                    userRole = new UserRole(
-                            rs.getString("role_type"));
-                    
-                    userRole.setDateCreated(
-                            ConvertTime.getDateTime(
-                                    rs.getTimestamp("date_created")
-                            ));
-                    userRole.setDateModified(
-                            ConvertTime.getDateTime(
-                                    rs.getTimestamp("date_modified")
-                            ));
-                    userRole.setModifiedBy(
-                            rs.getString("modified_by"));
-                    userRole.setDescription(
-                            rs.getString("description"));
-                    
-                    userRoles.add(userRole);
-                }
+            UserRole userRole;
+
+            while (rs.next()) {
+                userRole = new UserRole(
+                        rs.getString("role_type"));
+
+                userRole.setDateCreated(
+                        ConvertTime.getDateTime(
+                                rs.getTimestamp("date_created")
+                        ));
+                userRole.setDateModified(
+                        ConvertTime.getDateTime(
+                                rs.getTimestamp("date_modified")
+                        ));
+                userRole.setModifiedBy(
+                        rs.getString("modified_by"));
+                userRole.setDescription(
+                        rs.getString("description"));
+
+                userRoles.add(userRole);
             }
         } catch (SQLException ex) {
             throw ex;

@@ -5,6 +5,7 @@
  */
 package alien.servlets;
 
+import alien.commonobjects.models.UserTypes;
 import alien.helpers.SessionAssister;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -32,7 +33,13 @@ public class Administration extends HttpServlet {
             throws ServletException, IOException {
         SessionAssister.clearErrors(request);
         
-        request.getRequestDispatcher("/WEB-INF/jsps/admin/Administration.jsp").forward(request, response);
+        
+        if (SessionAssister.isRole(request, UserTypes.Administrator)) {
+
+            request.getRequestDispatcher("/WEB-INF/jsps/admin/Administration.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/WEB-INF/jsps/errors/AdminOnly.jsp").forward(request, response);
+        }
     }
 
     /**

@@ -579,6 +579,18 @@ begin
     where active = 1 and user_name = user_name_param and password = sha2(password_param, 0);
 end$$
 
+create procedure sp_select_users_by_role_type (
+	in role_type_param varchar(50),
+    in active_param bit
+)
+begin
+	select user_name, first_name, last_name, email, date_created, date_modified, modified_by, active 
+    from users as u 
+    inner join user_roles as ur
+		on u.user_name = ur.user_name
+    where active = active_param and ur.role_type = role_type_param;
+end$$
+
 delimiter ; 
 
 create user 'alienuser'@'%'
@@ -699,6 +711,9 @@ grant execute on procedure sp_select_user_blog_comments
 to 'alienuser'@'%';
 
 grant execute on procedure sp_select_user_on_password
+to 'alienuser'@'%';
+
+grant execute on procedure sp_select_users_by_role_type
 to 'alienuser'@'%';
 
 use alieninsurance;
