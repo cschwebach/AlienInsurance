@@ -5,9 +5,9 @@
  */
 package alien.servlets;
 
+import alien.businesslogic.BlogManager;
 import alien.helpers.SessionAssister;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +33,11 @@ public class CreateBlog extends HttpServlet {
             throws ServletException, IOException {
         SessionAssister.clearErrors(request);
         
-        request.getRequestDispatcher("/WEB-INF/jsps/social/CreateBlog.jsp").forward(request, response);
+        if (SessionAssister.loggedIn(request)) {
+            request.getRequestDispatcher("/WEB-INF/jsps/social/CreateBlog.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/WEB-INF/jsps/errors/LogInRequired.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -47,7 +51,33 @@ public class CreateBlog extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsps/social/CreateBlog.jsp").forward(request, response);
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        boolean disableComments = Boolean.parseBoolean(request.getParameter("disableComments"));
+        
+        String error = "";
+        
+        if (title.isEmpty()) {
+            error = "Title is required.";
+        } else if (content.isEmpty()) {
+            error = "Content is required.";
+        }
+        
+        if (error.isEmpty()) {
+            BlogManager blogManager = new BlogManager(
+                    SessionAssister.retrieveSessionUser(request).getUserName());
+            
+            if (blogManager.createBlog(title, content, disableComments)) {
+                response.sendRedirect(request.getContextPath() + "/Social");
+            } else {
+                error = "There was a problem creating your blog.";
+            }
+        } 
+        
+        if (!error.isEmpty()) {
+            SessionAssister.addError(request, error);
+            request.getRequestDispatcher("/WEB-INF/jsps/social/CreateBlog.jsp").forward(request, response);
+        }
     }
 
     /**

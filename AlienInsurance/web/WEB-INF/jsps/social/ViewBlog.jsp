@@ -14,7 +14,7 @@
         <div>
             <c:choose>
                 <c:when test="${!blog.disableComments}">
-                    <form action="POST">
+                    <form method="POST">
                         <label for="blogComment">Add Comment</label>
                         <input type="text" name="blogComment" /><br />
                         <input type="submit" value="Submit" />
@@ -27,7 +27,6 @@
             </c:choose>
             <c:choose>
                 <c:when test="${fn:length(blog.blogComments) > 0}">
-                    
                     <c:forEach var="blogComment" items="${blog.blogComments}">
                         <div>
                             <p>${blogComment.content} ~ ${blogComment.createdBy} ${blogComment.dateCreated}</p>

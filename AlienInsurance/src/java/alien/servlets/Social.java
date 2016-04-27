@@ -60,7 +60,7 @@ public class Social extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsps/social/Social.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/errors/404.jsp").forward(request, response);
     }
 
     /**

@@ -7,7 +7,6 @@ package alien.helpers;
 
 import alien.commonobjects.models.User;
 import alien.commonobjects.models.UserRole;
-import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +19,12 @@ public class SessionAssister {
         HttpSession session = request.getSession();
         
         session.removeAttribute("error");
+    }
+    
+    public static void addError(HttpServletRequest request, String error) {
+        HttpSession session = request.getSession();
+        
+        session.setAttribute("error", error);
     }
     
     public static boolean loggedIn(HttpServletRequest request) {

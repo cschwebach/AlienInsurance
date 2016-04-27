@@ -27,7 +27,7 @@ public class BlogAccessor {
         Connection conn = DbConnection.getConnection();
         
         try {
-            CallableStatement cmd = conn.prepareCall("{call sp_insert_blog(?)}");
+            CallableStatement cmd = conn.prepareCall("{call sp_insert_blog(?, ?, ?, ?, ?)}");
             
             cmd.setString(1, 
                     blog.getTitle());

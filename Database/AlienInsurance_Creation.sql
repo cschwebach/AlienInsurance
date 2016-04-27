@@ -178,6 +178,8 @@ create procedure sp_insert_blog (
 begin
 	insert into blogs(title, content, created_by, disable_comments, date_created, date_modified, modified_by, active)
     values(title_param, content_param, created_by_param, disable_comments_param, date_created_param, null, null, default);
+    
+    select last_insert_id();
 end$$
 
 create procedure sp_assign_blog_comment (

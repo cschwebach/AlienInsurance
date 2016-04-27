@@ -74,7 +74,7 @@ public class LogIn extends HttpServlet {
             error = "Sorry, an error occurred while processing your request.";
         }
         
-        session.setAttribute("error", error);
+        SessionAssister.addError(request, error);
         request.getRequestDispatcher("/WEB-INF/jsps/admin/LogIn.jsp").forward(request, response);
     }
 

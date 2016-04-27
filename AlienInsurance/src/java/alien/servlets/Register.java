@@ -104,7 +104,7 @@ public class Register extends HttpServlet {
         }
         
         if (!error.isEmpty()) {
-            request.getSession().setAttribute("error", error);
+            SessionAssister.addError(request, error);
             request.getRequestDispatcher("/WEB-INF/jsps/admin/Register.jsp").forward(request, response);
         }
     }

@@ -34,9 +34,9 @@ public class BlogManager {
         blog.setDateCreated(new DateTime());
         
         try {
-            int blogId = 0;
+            int blogId = BlogAccessor.createBlog(blog);
             
-            if (flag = 0 != BlogAccessor.createBlog(blog)) {
+            if (flag = 0 != blogId) {
                 blog.setBlogId(blogId);
             }
         } catch (Exception ex) { blog = null; }
