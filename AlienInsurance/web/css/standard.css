@@ -11,6 +11,40 @@ html, body {
     background-color: #ddd;
 }
 
+.about{
+    width: 30%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.card{
+    width: 20%;
+    height: auto;
+    display: block;
+}
+
+.money{
+    float: right;
+    padding-right: 50px;
+    width: 40%;
+    height: auto;
+}
+
+.claimArea{
+    border: 1px solid #448844; 
+    margin: 0; 
+    padding: 25px;
+    background-color: #66FF66;
+    text-align: center;
+}
+
+.btnCov{
+    float: right;
+    width: 60px;
+}
+
+
 .funny {
     width: 30%;
     height: auto;
