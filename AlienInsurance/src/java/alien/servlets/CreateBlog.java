@@ -7,6 +7,8 @@ package alien.servlets;
 
 import alien.businesslogic.BlogManager;
 import alien.helpers.SessionAssister;
+import alien.helpers.StringAssister;
+import com.mysql.jdbc.StringUtils;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,6 +66,13 @@ public class CreateBlog extends HttpServlet {
         }
         
         if (error.isEmpty()) {
+            title = StringAssister.checkBlank(title, 100);
+            content = StringAssister.checkBlank(content, 1024);
+            
+            if (StringUtils.isEmptyOrWhitespaceOnly(content)) {
+                content = "HELP ME THE GOVERNMENT'S MIND CONTROL WORKS";
+            }
+            
             BlogManager blogManager = new BlogManager(
                     SessionAssister.retrieveSessionUser(request).getUserName());
             

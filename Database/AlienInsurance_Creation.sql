@@ -78,8 +78,8 @@ create table claims (
 
 create table blogs (
 	blog_id int auto_increment primary key,
-	title varchar(30) not null,
-    content varchar(255) not null,
+	title varchar(100) not null,
+    content text not null,
     created_by varchar(30) not null,
     disable_comments bit not null default 0,
 	date_created datetime not null default now(),
@@ -197,8 +197,8 @@ begin
 end$$
 
 create procedure sp_insert_blog (
-	in title_param varchar(30),
-    in content_param varchar(255),
+	in title_param varchar(100),
+    in content_param text,
     in created_by_param varchar(30),
     in disable_comments_param bit,
     in date_created_param datetime
@@ -350,8 +350,8 @@ end$$
 
 create procedure sp_update_blog (
 	in blog_id_param int,
-    in title_param varchar(30),
-    in content_param varchar(255),
+    in title_param varchar(100),
+    in content_param text,
     in disable_comments_param bit,
     in date_modified_param datetime,
     in modified_by_param varchar(30),

@@ -8,6 +8,7 @@ package alien.servlets;
 import alien.businesslogic.BlogManager;
 import alien.commonobjects.models.Blog;
 import alien.helpers.SessionAssister;
+import alien.helpers.StringAssister;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -74,6 +75,8 @@ public class ViewBlog extends HttpServlet {
             }
 
             if (error.isEmpty()) {
+                content = StringAssister.checkBlank(content, 255);
+                
                 BlogManager blogManager = new BlogManager(
                     SessionAssister.retrieveSessionUser(request).getUserName());
                 try {

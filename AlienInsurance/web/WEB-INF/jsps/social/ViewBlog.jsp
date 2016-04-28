@@ -8,11 +8,11 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/includes/pagetop.jsp" />
         <div class="blogHeader">
-            <h1>${blog.title}</h1> 
+            <h1><c:out value="${blog.title}" /></h1> 
             <p>Created By: ${blog.createdBy} ${blog.dateCreated}</p>
         </div>
         <div class="blogContent">
-            <p>${blog.content}</p>
+            <p><c:out value="${blog.content}" /></p>
         </div>
         <div>
             <c:choose>
@@ -35,7 +35,7 @@
                     <c:when test="${fn:length(blog.blogComments) > 0}">
                         <c:forEach var="blogComment" items="${blog.blogComments}">
                             <div class="blogComment">
-                                <p>${blogComment.content}</p>
+                                <p><c:out value="${blogComment.content}" /></p>
                                 <div>
                                     <p>~ ${blogComment.createdBy} ${blogComment.dateCreated}</p>
                                 </div>

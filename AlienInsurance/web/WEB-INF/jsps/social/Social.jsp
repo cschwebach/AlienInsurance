@@ -20,7 +20,7 @@
             <tbody>
                 <c:forEach var="blog" items="${blogs}">
                     <tr onclick="location.href='ViewBlog?blogId=${blog.blogId}'">
-                        <td>${blog.title}</td>
+                        <td><c:out value="${blog.title}" /></td>
                         <td>${blog.createdBy}</td>
                         <td>${blog.dateCreated}</td>
                     </tr>
