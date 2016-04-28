@@ -12,10 +12,15 @@ html, body {
 }
 
 .about{
-    width: 30%;
+    width: 80%;
     height: auto;
     display: block;
     margin: 0 auto;
+    text-align: center;
+}
+
+.center_text {
+    text-align: center;
 }
 
 .card{
@@ -42,6 +47,11 @@ html, body {
 .btnCov{
     float: right;
     width: 60px;
+}
+
+.aliens {
+    display: block;
+    margin: 0 auto;
 }
 
 
