@@ -59,7 +59,7 @@ public class UserManager {
                 
                 if (flag) {
                     flag = 1 == userAccessor.addUserRole(
-                            userName, "User", new DateTime());
+                            userName, "User", new DateTime(), null);
                 }
             } catch (Exception ex) { flag = false; }
         }

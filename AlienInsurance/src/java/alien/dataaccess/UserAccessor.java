@@ -213,14 +213,14 @@ public class UserAccessor {
         return userRoles;
     }
     
-    public int addUserRole(String userName, String roleType, DateTime dateCreated) throws SQLException {
+    public int addUserRole(String userName, String roleType, DateTime dateCreated, String createdBy) throws SQLException {
         int rowsAffected = 0;
         
         Connection conn = DbConnection.getConnection();
 
         try {
             CallableStatement cmd = conn.prepareCall(
-                    "{call sp_assign_user_role(?, ?, ?)}");
+                    "{call sp_assign_user_role(?, ?, ?, ?)}");
             
             cmd.setString(1, 
                     userName);
@@ -228,6 +228,8 @@ public class UserAccessor {
                     roleType);
             cmd.setTimestamp(3, 
                     ConvertTime.getTimestamp(dateCreated));
+            cmd.setString(4,
+                    createdBy);
             
             rowsAffected = cmd.executeUpdate();
         } catch (SQLException ex) {
