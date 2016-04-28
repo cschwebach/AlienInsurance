@@ -41,6 +41,8 @@
     <br />
     <img class="card" src="Images/credit3.jpg" />
     <br />
+     <input style="padding-left: 20px; padding-top: 10px; padding-bottom: 10px; padding-right: 20px; background-color: yellow;" type="submit" value ="Submit">
+     <br />
     <h1>Your welcome for the coverage! Covered from ET for life!!</h1>
 </div>
 <jsp:include page="/WEB-INF/includes/pagebottom.jsp" />

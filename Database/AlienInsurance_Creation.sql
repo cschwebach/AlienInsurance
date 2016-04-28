@@ -102,7 +102,36 @@ create table blog_comments (
     foreign key (created_by) references users(user_name)
 ) comment 'Comments made for a blog.';
 
+create table billing (
+	billing_id int auto_increment primary key, 
+	biller_user_name varchar(30),
+    biller_first_name varchar(30) not null,
+    biller_last_name varchar(30) not null,
+	biller_cardNumber int not null,   
+	securityCode int not null,
+	product_id_purchased int not null,
+    date_created datetime not null default now(),
+    active bit not null default 1,
+	foreign key (biller_user_name) references users(user_name),
+	foreign key (product_id_purchased) references products(product_id)
+) comment 'Comments made for billing. ';
+
 delimiter $$
+
+create procedure sp_insert_billing (
+	in biller_user_name varchar(30),
+    in biller_first_name varchar(30),
+    in biller_last_name varchar(30),
+	in biller_cardNumber int,
+	in securityCode int,
+	in product_id_purchased int,
+    in date_created datetime,
+    in active bit
+)
+begin
+	insert into billing(biller_user_name, biller_first_name, biller_last_name,  biller_cardNumber, securityCode, product_id_purchased, date_created, active)
+    values(biller_user_name, biller_first_name, biller_last_name, product_id_purchased, date_created, default); 
+end$$
 
 create procedure sp_insert_user (
 	in user_name_param varchar(30),
